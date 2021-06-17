@@ -1,5 +1,5 @@
 # RetroCanvasSnake
-RetroCanvasSnake is a web game which utilises the HTML canvas and JavaScript to draw the 2D environment. This implementation features two modes of play: classic and remastered, as well as pause functionality. Classic mode follows the original death rules, i.e., hitting the wall or yourself results in death. Remastered allows for the player to not be killed by walls, instead moving through them.
+RetroCanvasSnake is a web game which utilises the HTML canvas and JavaScript to draw a 2D-game environment. This implementation features two modes of play: classic and remastered, as well as pause functionality. Classic mode follows the original death rules, i.e., hitting the wall or yourself results in death. Remastered allows for the player to not be killed by walls, instead moving through them.
 
 Originally written during my time at college, sometime around February 2018. The code has since sported two new revisions, with this version being the most recent.
 
