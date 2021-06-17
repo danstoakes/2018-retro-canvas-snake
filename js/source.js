@@ -3,6 +3,8 @@
  * features two modes: classic and remastered, as well as pause functionality.
  */
 
+// need to fix: pause and replay sound if already playing, kills you occasionally when starting movement
+
 constants = {
     CANVAS_WIDTH: 400,
     CANVAS_HEIGHT: 400,
@@ -130,61 +132,56 @@ document.addEventListener("DOMContentLoaded", function ()
     */
     document.addEventListener("keydown", function (event)
     {
-        // only set the moved variable if the user has moved
-        if (game.direction != directions.still)
-            game.moved = true;
-
-        switch (event.keyCode)
+        if (game.started)
         {
-            case 32:
-                // space pressed: pause the game if it is valid
-                if (game.started)
-                {
-                    if (!game.dead)
-                    {
-                        pause(canvas, context);
-                    } else
-                    {
-                        drawPlayButton(canvas, context);
+            // only set the moved variable if the user has moved
+            if (game.direction != directions.still)
+                game.moved = true;
+
+            switch (event.keyCode) {
+                case 32:
+                    // space pressed: pause the game if it is valid
+                    if (game.started) {
+                        if (!game.dead) {
+                            pause(canvas, context);
+                        } else {
+                            drawPlayButton(canvas, context);
+                        }
                     }
-                }
-                break;
-            case 37:
-                // left pressed: move the snake left if not moving oppositely
-                if (game.direction != directions.right)
-                {
-                    game.direction = directions.left;
-                    game.xVelocity = -1;
-                    game.yVelocity = 0;
-                }
-                break;
-            case 38:
-                // up pressed: move the snake up if not moving oppositely
-                if (game.direction != directions.down)
-                {
-                    game.direction = directions.up;
-                    game.xVelocity = 0;
-                    game.yVelocity = -1;
-                }
-                break;
-            case 39:
-                // right pressed: move the snake right if not moving oppositely
-                if (game.direction != directions.left)
-                {
-                    game.direction = directions.right;
-                    game.xVelocity = 1;
-                    game.yVelocity = 0;
-                }
-                break;
-            case 40:
-                // down pressed: move the snake down if not moving oppositely
-                if (game.direction != directions.up)
-                {
-                    game.direction = directions.down;
-                    game.xVelocity = 0;
-                    game.yVelocity = 1;
-                }
-                break;
+                    break;
+                case 37:
+                    // left pressed: move the snake left if not moving oppositely
+                    if (game.direction != directions.right && !game.paused) {
+                        game.direction = directions.left;
+                        game.xVelocity = -1;
+                        game.yVelocity = 0;
+                    }
+                    break;
+                case 38:
+                    // up pressed: move the snake up if not moving oppositely
+                    if (game.direction != directions.down && !game.paused) {
+                        game.direction = directions.up;
+                        game.xVelocity = 0;
+                        game.yVelocity = -1;
+                    }
+                    break;
+                case 39:
+                    // right pressed: move the snake right if not moving oppositely
+                    if (game.direction != directions.left && !game.paused) {
+                        game.direction = directions.right;
+                        game.xVelocity = 1;
+                        game.yVelocity = 0;
+                    }
+                    break;
+                case 40:
+                    // down pressed: move the snake down if not moving oppositely
+                    if (game.direction != directions.up && !game.paused) {
+                        game.direction = directions.down;
+                        game.xVelocity = 0;
+                        game.yVelocity = 1;
+                    }
+                    break;
+            }
         }
     });
     // draw the play button and start the game
@@ -266,7 +263,19 @@ function drawPauseText(canvas, context, oldFont)
  */
 function playEatSound()
 {
-    document.getElementById("eatSound").play();
+    // create a new audio element
+    var eatSound = document.createElement("audio");
+    eatSound.src = "sound/EatSound.mp3";
+    eatSound.setAttribute("preload", "auto");
+    eatSound.setAttribute("controls", "none");
+    eatSound.style.display = "none";
+    eatSound.addEventListener("ended", function ()
+    {
+        // remove the element when the sound has finished playing
+        eatSound.remove();
+    });
+    document.body.appendChild(eatSound);
+    eatSound.play();
 }
 
 /*
