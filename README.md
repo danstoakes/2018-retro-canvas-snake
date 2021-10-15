@@ -11,4 +11,4 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 Please make sure to update tests as appropriate.
 
-It is worth noting that this is a legacy-style archive, and likely won't be updated.
+It is worth noting that this is a legacy-style archive, and likely won't be updated. It's still fun to play, though (and written in pure JS).
